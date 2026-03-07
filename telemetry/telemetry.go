@@ -13,6 +13,8 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+
+	"cliamp/internal/appdir"
 )
 
 const endpoint = "https://telemetry.cliamp.stream/ping"
@@ -23,11 +25,11 @@ type state struct {
 }
 
 func stateFile() (string, error) {
-	home, err := os.UserHomeDir()
+	dir, err := appdir.Dir()
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(home, ".config", "cliamp", ".telemetry_id"), nil
+	return filepath.Join(dir, ".telemetry_id"), nil
 }
 
 func newUUID() string {
