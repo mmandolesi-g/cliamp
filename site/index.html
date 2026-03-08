@@ -12,12 +12,13 @@
 
   /* ═══ BASE ════════════════════════════════ */
   body{
-    background:#08090f;
+    background:#050608;
     color:#b0b8c8;
     font-family:"SF Mono","Cascadia Code","Fira Code","JetBrains Mono","IBM Plex Mono","Consolas","Liberation Mono",monospace;
     font-size:14px;
     line-height:1.7;
     overflow-x:hidden;
+    padding:20px 0;
   }
   ::selection{background:#2a3a5e;color:#73d0ff}
 
@@ -39,61 +40,94 @@
 
   /* ═══ LAYOUT ══════════════════════════════ */
   .wrap{max-width:840px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
-  section{padding:80px 0}
+  section{padding:60px 0;border-bottom:1px solid #0f1119}
+
+  /* ═══ TERMINAL WINDOW ═════════════════════ */
+  .terminal-window{
+    max-width:900px;margin:0 auto;
+    border:1px solid #1e2233;
+    background:#08090f;
+    position:relative;z-index:1;
+  }
+  .terminal-titlebar{
+    display:flex;align-items:center;gap:8px;
+    padding:10px 16px;
+    background:#0c0e17;
+    border-bottom:1px solid #1e2233;
+    user-select:none;
+  }
+  .terminal-dot{
+    width:10px;height:10px;border-radius:50%;
+    border:1px solid #2a3050;background:transparent;
+  }
+  .terminal-dot:nth-child(1){border-color:#ff5f56;background:rgba(255,95,86,.15)}
+  .terminal-dot:nth-child(2){border-color:#ffbd2e;background:rgba(255,189,46,.15)}
+  .terminal-dot:nth-child(3){border-color:#27c93f;background:rgba(39,201,63,.15)}
+  .terminal-title{
+    flex:1;text-align:center;
+    color:#5a6a90;font-size:11px;letter-spacing:2px;
+    margin-right:44px;
+  }
 
   /* ═══ NAV ══════════════════════════════════ */
   .nav{
     position:sticky;top:0;z-index:100;
-    background:rgba(8,9,15,.85);
+    background:rgba(12,14,23,.95);
     backdrop-filter:blur(12px);
     -webkit-backdrop-filter:blur(12px);
-    border-bottom:1px solid rgba(30,34,51,.6);
+    border-bottom:1px solid #1e2233;
   }
   .nav-inner{
-    max-width:840px;margin:0 auto;padding:0 28px;
+    max-width:900px;margin:0 auto;padding:0 28px;
     display:flex;align-items:center;justify-content:space-between;
-    height:44px;
+    height:40px;
   }
   .nav-brand{
-    color:#ffcc66;font-size:13px;font-weight:700;
-    letter-spacing:4px;text-decoration:none;
-    text-shadow:0 0 12px rgba(255,204,102,.25);
+    color:#5bf870;font-size:12px;font-weight:700;
+    letter-spacing:2px;text-decoration:none;
     transition:text-shadow .3s;
   }
-  .nav-brand:hover{text-shadow:0 0 20px rgba(255,204,102,.5);color:#ffcc66}
-  .nav-links{display:flex;gap:24px}
+  .nav-brand::before{content:"~/";color:#5a6a90}
+  .nav-brand:hover{text-shadow:0 0 12px rgba(91,248,112,.3);color:#5bf870}
+  .nav-links{display:flex;gap:6px}
   .nav-links a{
-    color:#8a92b0;font-size:11px;letter-spacing:1.5px;
-    text-transform:uppercase;text-decoration:none;
-    transition:color .25s,text-shadow .25s;
+    color:#5a6a90;font-size:11px;letter-spacing:1px;
+    text-decoration:none;
+    transition:color .25s;
+    padding:4px 8px;
   }
-  .nav-links a:hover{color:#73d0ff;text-shadow:0 0 8px rgba(115,208,255,.2)}
+  .nav-links a::before{content:"[";color:#3a4060;margin-right:2px}
+  .nav-links a::after{content:"]";color:#3a4060;margin-left:2px}
+  .nav-links a:hover{color:#ffcc66}
 
   /* ═══ SECTION HEADERS ═════════════════════ */
   .section-label{
-    font-size:11px;font-weight:600;
-    letter-spacing:5px;text-transform:uppercase;
+    font-size:12px;font-weight:400;
+    letter-spacing:1px;
     margin-bottom:36px;
-    display:flex;align-items:center;gap:16px;
+    display:flex;align-items:center;gap:0;
+    color:#5a6a90;
   }
   .section-label .label-text{
-    color:#ffcc66;
-    text-shadow:0 0 12px rgba(255,204,102,.2);
+    color:#5bf870;
     white-space:nowrap;
   }
-  .section-label::before{content:"//";color:#5a6a90;font-weight:400}
+  .section-label::before{content:"$ cat ";color:#8a92b0;font-weight:400}
   .section-label::after{
-    content:"";flex:1;height:1px;
-    background:linear-gradient(to right,#1e2233,transparent);
+    content:"█";color:#5bf870;
+    animation:blink-cursor 1s step-end infinite;
+    margin-left:2px;font-size:12px;
   }
+  @keyframes blink-cursor{0%,100%{opacity:1}50%{opacity:0}}
 
   /* ═══ SECTION DIVIDER ═════════════════════ */
   .divider{
-    text-align:center;color:#4a5270;font-size:13px;
-    letter-spacing:4px;padding:0;
+    text-align:center;color:#2a3050;font-size:13px;
+    letter-spacing:0;padding:0;
     user-select:none;
+    overflow:hidden;
   }
-  .divider span{color:#4a5270}
+  .divider span{color:#2a3050}
 
   /* ═══ LINKS ═══════════════════════════════ */
   a{color:#73d0ff;text-decoration:none;transition:all .25s}
@@ -109,33 +143,45 @@
     content:"";position:absolute;
     top:30%;left:50%;width:800px;height:500px;
     transform:translate(-50%,-50%);
-    background:radial-gradient(ellipse,rgba(255,204,102,.03) 0%,transparent 65%);
+    background:radial-gradient(ellipse,rgba(91,248,112,.025) 0%,transparent 65%);
     pointer-events:none;
   }
 
   .hero-title{
     font-size:clamp(44px,10vw,72px);
-    color:#ffcc66;
+    color:#5bf870;
     letter-spacing:0.45em;
     padding-left:0.45em;
     font-weight:700;
     line-height:1;
     text-shadow:
-      0 0 30px rgba(255,204,102,.3),
-      0 0 80px rgba(255,204,102,.1),
-      0 0 120px rgba(255,204,102,.05);
+      0 0 30px rgba(91,248,112,.3),
+      0 0 80px rgba(91,248,112,.1),
+      0 0 120px rgba(91,248,112,.05);
     animation:phosphor-pulse 6s ease-in-out infinite;
   }
+  .hero-cursor{
+    display:inline-block;
+    width:0.5em;height:0.08em;
+    background:#5bf870;
+    vertical-align:0.15em;
+    animation:blink-cursor 1s step-end infinite;
+    box-shadow:0 0 10px rgba(91,248,112,.4);
+  }
   .hero-sub{
-    color:#7a82a0;font-size:11px;margin-top:14px;
-    letter-spacing:7px;text-transform:uppercase;
+    color:#5a6a90;font-size:11px;margin-top:14px;
+    letter-spacing:3px;
   }
+  .hero-sub::before{content:"# ";color:#3a4060}
   .hero-desc{
-    color:#9098b0;font-size:13px;margin-top:24px;
-    max-width:420px;margin-left:auto;margin-right:auto;
+    color:#8a92b0;font-size:13px;margin-top:24px;
+    max-width:460px;margin-left:auto;margin-right:auto;
     line-height:1.8;
+    text-align:left;
+    border-left:2px solid #1e2233;
+    padding-left:16px;
   }
-  .hero-desc em{color:#ffa759;font-style:normal}
+  .hero-desc em{color:#ffcc66;font-style:normal}
 
   /* ── Spectrum Visualizer ── */
   .visualizer{
@@ -157,8 +203,8 @@
     margin:28px auto 0;
     display:inline-flex;align-items:center;gap:10px;
     background:#0c0e17;
-    border:1px solid #1a1e2e;
-    border-radius:6px;
+    border:1px solid #1e2233;
+    border-radius:0;
     padding:10px 16px;
     transition:border-color .3s,box-shadow .3s;
     animation:fade-up .6s ease-out .25s both;
@@ -177,7 +223,7 @@
   }
   .radio-player.playing .rp-label{color:#5bf870;text-shadow:0 0 8px rgba(91,248,112,.15)}
   .rp-play{
-    width:26px;height:26px;border-radius:50%;
+    width:26px;height:26px;border-radius:0;
     background:transparent;border:1px solid #2a3050;
     cursor:pointer;display:flex;align-items:center;justify-content:center;
     color:#8a92b0;transition:all .25s;flex-shrink:0;padding:0;
@@ -209,7 +255,7 @@
   .rp-vol::-webkit-slider-runnable-track{height:3px;border-radius:2px;background:#1a1e2e}
   .rp-vol::-moz-range-track{height:3px;border-radius:2px;background:#1a1e2e}
   .rp-channel{
-    display:flex;gap:0;border:1px solid #1a1e2e;border-radius:4px;overflow:hidden;flex-shrink:0;
+    display:flex;gap:0;border:1px solid #1a1e2e;border-radius:0;overflow:hidden;flex-shrink:0;
   }
   .rp-ch{
     background:transparent;border:none;color:#5a6280;font-size:9px;letter-spacing:1px;
@@ -232,45 +278,43 @@
   }
   .btn{
     display:inline-flex;align-items:center;gap:8px;
-    font-family:inherit;font-size:12px;letter-spacing:1.5px;
-    padding:11px 28px;border-radius:5px;
+    font-family:inherit;font-size:12px;letter-spacing:2px;
+    padding:10px 24px;border-radius:0;
     border:1px solid;cursor:pointer;
-    transition:all .3s;text-decoration:none;
+    transition:all .25s;text-decoration:none;
     text-transform:uppercase;
   }
   .btn-primary{
-    background:linear-gradient(180deg,#ffcc66 0%,#f0b840 100%);
-    color:#0a0c13;border-color:#ffcc66;
+    background:transparent;
+    color:#5bf870;border-color:#5bf870;
     font-weight:700;
-    box-shadow:0 0 20px rgba(255,204,102,.15),0 2px 8px rgba(0,0,0,.3);
+    box-shadow:0 0 12px rgba(91,248,112,.1);
   }
   .btn-primary:hover{
-    background:linear-gradient(180deg,#ffd580 0%,#ffcc66 100%);
-    box-shadow:0 0 30px rgba(255,204,102,.3),0 4px 16px rgba(0,0,0,.3);
-    color:#0a0c13;text-shadow:none;
-    transform:translateY(-1px);
+    background:#5bf870;
+    color:#08090f;text-shadow:none;
+    box-shadow:0 0 24px rgba(91,248,112,.3);
   }
   .btn-ghost{
-    background:transparent;color:#8a92b0;border-color:#2a3250;
+    background:transparent;color:#5a6a90;border-color:#2a3050;
   }
   .btn-ghost:hover{
-    color:#73d0ff;border-color:#2a4070;
-    text-shadow:0 0 10px rgba(115,208,255,.2);
-    box-shadow:0 0 20px rgba(115,208,255,.08);
+    color:#ffcc66;border-color:#ffcc66;
+    box-shadow:0 0 12px rgba(255,204,102,.1);
   }
 
   /* ═══ DEMO ════════════════════════════════ */
   .demo-wrap{position:relative}
   .demo-video{
     display:block;width:100%;height:auto;
-    border-radius:8px;
-    border:1px solid #1a1e2e;
-    box-shadow:0 10px 40px rgba(0,0,0,.4);
+    border-radius:0;
+    border:1px solid #1e2233;
+    box-shadow:0 4px 20px rgba(0,0,0,.4);
   }
   .sound-toggle{
     position:absolute;bottom:14px;right:14px;
-    width:36px;height:36px;border-radius:50%;
-    background:rgba(8,9,15,.75);
+    width:36px;height:36px;border-radius:0;
+    background:rgba(8,9,15,.85);
     backdrop-filter:blur(6px);
     -webkit-backdrop-filter:blur(6px);
     border:1px solid #1e2233;
@@ -290,22 +334,23 @@
   .install-group{margin-top:24px}
   .install-group:first-of-type{margin-top:0}
   .install-platform{
-    color:#7a82a0;font-size:10px;letter-spacing:3px;
-    text-transform:uppercase;margin-bottom:10px;
+    color:#5a6a90;font-size:10px;letter-spacing:1px;
+    margin-bottom:10px;
     padding-left:2px;
   }
+  .install-platform::before{content:"# ";color:#3a4060}
   .install-box{
     background:#0c0e17;
-    border:1px solid #1a1e2e;
-    border-radius:6px;
+    border:1px solid #1e2233;
+    border-radius:0;
     padding:18px 22px;
     position:relative;overflow:visible;
     transition:border-color .3s,box-shadow .3s;
     cursor:pointer;
   }
   .install-box:hover{
-    border-color:#2a3a50;
-    box-shadow:0 0 20px rgba(91,248,112,.04);
+    border-color:#5bf870;
+    box-shadow:0 0 12px rgba(91,248,112,.06);
   }
   .install-box code{
     color:#5bf870;font-size:13px;white-space:nowrap;
@@ -337,30 +382,29 @@
     background:#0c0e17;
     border:1px solid #141828;
     border-left:2px solid #1e2233;
-    padding:22px 24px;
-    border-radius:0 6px 6px 0;
+    padding:18px 20px;
+    border-radius:0;
     transition:all .3s;
     position:relative;
   }
   .feature:hover{
     background:#0e1019;
-    border-left-color:#ffcc66;
-    box-shadow:0 0 20px rgba(255,204,102,.03);
+    border-left-color:#5bf870;
   }
   .feature-icon{
-    font-size:14px;color:#5a6a90;
+    font-size:14px;color:#3a4060;
     margin-bottom:8px;
-    transition:color .3s,text-shadow .3s;
+    transition:color .3s;
   }
   .feature:hover .feature-icon{
-    color:#ffcc66;
-    text-shadow:0 0 8px rgba(255,204,102,.3);
+    color:#5bf870;
   }
   .feature-name{
     color:#b0b8c8;font-size:13px;
     font-weight:600;margin-bottom:5px;
   }
-  .feature p{font-size:12px;color:#8a92b0;line-height:1.6}
+  .feature-name::before{content:"> ";color:#3a4060;font-weight:400}
+  .feature p{font-size:12px;color:#7a82a0;line-height:1.6}
   .feature p code{color:#5bf870;font-size:11px}
 
   /* ═══ THEMES ══════════════════════════════ */
@@ -380,7 +424,7 @@
   .theme-card{
     background:#0c0e17;
     border:1px solid #141828;
-    border-radius:6px;
+    border-radius:0;
     padding:14px 16px;
     transition:all .3s;
     cursor:default;
@@ -388,8 +432,6 @@
   .theme-card:hover{
     border-color:#2a3050;
     background:#0e1019;
-    transform:translateY(-2px);
-    box-shadow:0 8px 24px rgba(0,0,0,.3);
   }
   .theme-card-name{
     color:#9098b0;font-size:11px;font-weight:600;
@@ -419,8 +461,8 @@
   }
   .keys-wrap{
     background:#0c0e17;
-    border:1px solid #141828;
-    border-radius:8px;
+    border:1px solid #1e2233;
+    border-radius:0;
     overflow:hidden;
   }
   .keys-grid{
@@ -475,12 +517,12 @@
   }
   .radio-card{
     background:#0c0e17;
-    border:1px solid #141828;
-    border-radius:8px;
+    border:1px solid #1e2233;
+    border-radius:0;
     padding:20px;
     transition:border-color .3s;
   }
-  .radio-card:hover{border-color:#1e2440}
+  .radio-card:hover{border-color:#2a3050}
   .radio-card-title{
     font-size:11px;color:#8a92b0;
     letter-spacing:1.5px;text-transform:uppercase;
@@ -509,7 +551,7 @@
     display:none;position:absolute;
     bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);
     background:#1a1e2e;border:1px solid #2a3050;
-    border-radius:4px;padding:6px 10px;
+    border-radius:0;padding:6px 10px;
     font-size:10px;color:#b0b8c8;white-space:nowrap;
     z-index:10;pointer-events:none;
   }
@@ -536,8 +578,8 @@
   }
   .radio-country{
     display:inline-flex;align-items:center;gap:6px;
-    background:#0f1119;border:1px solid #141828;
-    border-radius:4px;padding:6px 10px;
+    background:#0f1119;border:1px solid #1e2233;
+    border-radius:0;padding:6px 10px;
     font-size:11px;color:#9098b0;
     transition:border-color .3s,color .3s;
   }
@@ -557,15 +599,15 @@
     font-style:italic;padding:20px 0;
   }
   .radio-card--wide{grid-column:1 / -1}
-  .radio-tabs{display:flex;gap:0;margin-bottom:20px;border:1px solid #151830;border-radius:6px;overflow:hidden;width:fit-content}
+  .radio-tabs{display:flex;gap:0;margin-bottom:20px;border:1px solid #1e2233;border-radius:0;overflow:hidden;width:fit-content}
   .radio-tab{
     background:transparent;border:none;color:#5a6280;font-size:11px;letter-spacing:1px;
     text-transform:uppercase;padding:8px 20px;cursor:pointer;transition:all .25s;
     font-family:inherit;
   }
   .radio-tab:hover{color:#8a92b0}
-  .radio-tab.active{background:#151830;color:#ffcc66}
-  .radio-tab+.radio-tab{border-left:1px solid #151830}
+  .radio-tab.active{background:#151830;color:#5bf870}
+  .radio-tab+.radio-tab{border-left:1px solid #1e2233}
   @media(max-width:720px){
     .radio-grid{grid-template-columns:1fr}
     .radio-card--wide{grid-column:auto}
@@ -574,8 +616,7 @@
   /* ═══ FOOTER ══════════════════════════════ */
   footer{
     text-align:center;
-    padding:60px 28px 80px;
-    border-top:1px solid #0f1119;
+    padding:40px 28px 50px;
     position:relative;z-index:1;
   }
   .footer-viz{
@@ -602,8 +643,9 @@
   .footer-link svg{width:14px;height:14px;fill:currentColor;transition:fill .25s}
   .footer-note{
     margin-top:16px;font-size:10px;
-    color:#4a5270;letter-spacing:2px;
+    color:#5a6a90;letter-spacing:1px;
   }
+  .footer-note::before{content:"// ";color:#3a4060}
 
   /* ═══ ANIMATIONS ══════════════════════════ */
   @keyframes eq{
@@ -612,8 +654,8 @@
     100%{height:48px;opacity:1}
   }
   @keyframes phosphor-pulse{
-    0%,100%{text-shadow:0 0 30px rgba(255,204,102,.3),0 0 80px rgba(255,204,102,.1),0 0 120px rgba(255,204,102,.05)}
-    50%{text-shadow:0 0 40px rgba(255,204,102,.35),0 0 90px rgba(255,204,102,.12),0 0 130px rgba(255,204,102,.06)}
+    0%,100%{text-shadow:0 0 30px rgba(91,248,112,.3),0 0 80px rgba(91,248,112,.1),0 0 120px rgba(91,248,112,.05)}
+    50%{text-shadow:0 0 40px rgba(91,248,112,.35),0 0 90px rgba(91,248,112,.12),0 0 130px rgba(91,248,112,.06)}
   }
   @keyframes fade-up{
     from{opacity:0;transform:translateY(16px)}
@@ -654,10 +696,13 @@
 
   /* ═══ RESPONSIVE ══════════════════════════ */
   @media(max-width:720px){
-    .hero{padding:70px 0 30px}
-    section{padding:56px 0}
+    .hero{padding:50px 0 30px}
+    section{padding:44px 0}
 
+    body{padding:0}
+    .terminal-window{margin:0;border-left:none;border-right:none;border-top:none}
     .hero-title{letter-spacing:.3em}
+    .hero-desc{text-align:left}
     .features-grid{grid-template-columns:1fr}
     .themes-grid{grid-template-columns:repeat(2,1fr)}
     .keys-grid{grid-template-columns:1fr}
@@ -667,8 +712,8 @@
     .key-row{padding:8px 16px}
     .key-row kbd{min-width:70px}
     .install-box code{white-space:pre-wrap;word-break:break-all}
-    .nav-links{gap:14px}
-    .nav-links a{font-size:10px;letter-spacing:1px}
+    .nav-links{gap:4px}
+    .nav-links a{font-size:10px;letter-spacing:0.5px;padding:4px 5px}
     .radio-player{max-width:100%}
     .radio-hint code{font-size:9px}
   }
@@ -679,6 +724,7 @@
     .radio-big-number{font-size:24px}
     .radio-tabs{width:100%}
     .radio-tab{flex:1;padding:8px 12px;font-size:10px}
+    .terminal-title{display:none}
   }
 </style>
 </head>
@@ -686,6 +732,15 @@
 
 <!-- CRT overlay -->
 <div class="crt"></div>
+
+<!-- ═══ TERMINAL WINDOW ═══ -->
+<div class="terminal-window">
+<div class="terminal-titlebar">
+  <span class="terminal-dot"></span>
+  <span class="terminal-dot"></span>
+  <span class="terminal-dot"></span>
+  <span class="terminal-title">cliamp &mdash; bash</span>
+</div>
 
 <!-- ═══ NAV ═══ -->
 <nav class="nav">
@@ -705,7 +760,7 @@
 <!-- ═══ HERO ═══ -->
 <section class="hero">
   <div class="wrap">
-    <div class="hero-title">CLIAMP</div>
+    <div class="hero-title">CLIAMP<span class="hero-cursor"></span></div>
     <div class="hero-sub">terminal music player</div>
     <div class="hero-desc">
       A retro music player inspired by <em>Winamp</em> &mdash; built for the terminal.<br>
@@ -752,7 +807,7 @@
 <!-- ═══ DEMO ═══ -->
 <section>
   <div class="wrap">
-    <div class="section-label"><span class="label-text">Demo</span></div>
+    <div class="section-label"><span class="label-text">demo.mp4</span></div>
     <div class="demo-wrap">
       <video id="demo-vid" class="demo-video" autoplay loop muted playsinline>
         <source src="https://github.com/user-attachments/assets/fbc33d20-e3ac-4a62-a991-8a2f0243c8ea" type="video/mp4">
@@ -768,7 +823,7 @@
 <!-- ═══ INSTALL ═══ -->
 <section id="install">
   <div class="wrap">
-    <div class="section-label"><span class="label-text">Install</span></div>
+    <div class="section-label"><span class="label-text">install.sh</span></div>
 
     <div class="install-group">
       <div class="install-platform">Direct</div>
@@ -803,7 +858,7 @@
 <!-- ═══ FEATURES ═══ -->
 <section id="features">
   <div class="wrap">
-    <div class="section-label"><span class="label-text">Features</span></div>
+    <div class="section-label"><span class="label-text">features.txt</span></div>
     <div class="features-grid">
       <div class="feature">
         <div class="feature-icon">&#9835;</div>
@@ -892,7 +947,7 @@
 <!-- ═══ THEMES ═══ -->
 <section id="themes">
   <div class="wrap">
-    <div class="section-label"><span class="label-text">Themes</span></div>
+    <div class="section-label"><span class="label-text">themes.toml</span></div>
     <p class="themes-intro">
       17 built-in themes. Press <kbd>t</kbd> to switch, or use <code>--theme "name"</code> from the CLI.
       Drop a <code>.toml</code> file in <span class="path">~/.config/cliamp/themes/</span> to add your own.
@@ -1113,7 +1168,7 @@
 <!-- ═══ CLI FLAGS ═══ -->
 <section id="cli">
   <div class="wrap">
-    <div class="section-label"><span class="label-text">CLI Flags</span></div>
+    <div class="section-label"><span class="label-text">--help</span></div>
     <p class="table-intro">
       Override any config option for a single session. Flags can appear before, after, or between file arguments.
     </p>
@@ -1139,7 +1194,7 @@
 <!-- ═══ KEYBINDINGS ═══ -->
 <section id="keys">
   <div class="wrap">
-    <div class="section-label"><span class="label-text">Keybindings</span></div>
+    <div class="section-label"><span class="label-text">keybindings.conf</span></div>
     <div class="keys-wrap">
       <div class="keys-grid">
         <div class="key-row"><kbd>Space</kbd><span>Play / Pause</span></div>
@@ -1184,7 +1239,7 @@
 <!-- ═══ RADIO STATS ═══ -->
 <section id="radio" class="radio-stats">
   <div class="wrap">
-    <div class="section-label"><span class="label-text">cliamp radio</span></div>
+    <div class="section-label"><span class="label-text">radio.stats</span></div>
     <div class="radio-header">
       <div class="radio-live"><span class="radio-live-dot"></span> LIVE</div>
       <div class="radio-listeners" id="radio-listeners"></div>
@@ -1245,6 +1300,8 @@
   </div>
   <div class="footer-note">BUILT FOR THE TERMINAL</div>
 </footer>
+
+</div><!-- /.terminal-window -->
 
 <script>
 function copyCmd(el,cmd){
@@ -1521,6 +1578,7 @@ window.addEventListener("resize",function(){
 });
 
 renderRadioStats();
+setInterval(renderRadioStats, 10000);
 </script>
 <script type="module">
 import createGlobe from "https://cdn.skypack.dev/cobe";
